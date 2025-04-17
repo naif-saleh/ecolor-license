@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
 
 class Licen extends Model
 {
-    use HasApiTokens;
+    use HasApiTokens, SoftDeletes;
 
     // Data will stoed in the database
     protected $fillable = [
@@ -20,7 +21,12 @@ class Licen extends Model
         'status',
         'description',
         'user_id',
+        'auto_dialer_id',
+        'auto_distributor_id',
+        'evaluation_id',
     ];
+
+    protected $dates = ['deleted_at'];
 
     // Relationships
 
@@ -33,19 +39,19 @@ class Licen extends Model
     // The auto dialer modules associated with the license
     public function autoDialerModules()
     {
-        return $this->hasMany(AutoDialerModule::class);
+        return $this->belongsTo(AutoDialerModule::class, 'auto_dialer_id');
     }
 
     // The auto distributor modules associated with the license
     public function autoDistributorModuales()
     {
-        return $this->hasMany(AutoDistributorModuale::class);
+        return $this->belongsTo(AutoDistributorModuale::class, 'auto_distributor_id');
     }
 
     // The evaluation moduales associated with the license
     public function evaluationModuales()
     {
-        return $this->hasMany(EvaluationModuale::class);
+        return $this->belongsTo(EvaluationModuale::class, 'evaluation_id');
     }
 
     // Generate a unique license key
@@ -54,7 +60,10 @@ class Licen extends Model
         $raw = strtoupper(Str::random($length));
 
         // Format into XXXX-XXXX-XXXX-XXXX-XXXX
-        return implode('-', str_split($raw, 5));
+        $key = implode('-', str_split($raw, 5));
+        $this->license_key = $key;
+        $this->save();
+        return $key;
     }
 
     // Check if the license is expired
@@ -63,7 +72,7 @@ class Licen extends Model
         return $this->end_date < now();
     }
 
-    
+
     // Check if the license is active
     public function isActive(): bool
     {

@@ -2,7 +2,8 @@
 
 use App\Livewire\Licens\LicensCreate;
 use App\Livewire\Licens\LicensList;
-use App\Livewire\Licens\LicensUpdate;
+use App\Livewire\Licens\LicensShow;
+use App\Livewire\Licens\SoftDaletes;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -29,7 +30,8 @@ Route::middleware(['auth'])->group(function () {
     //Licens Route
     Route::get('licens', LicensList::class)->name('licens.list');
     Route::get('licens/create', LicensCreate::class)->name('licens.create');
-    Route::get('licens/{licens}/edit', LicensUpdate::class)->name('licens.edit');
+    Route::get('licens/softdelete', SoftDaletes::class)->name('licens.softdelete');
+    Route::get('licens/show/{id}', LicensShow::class)->name('licens.show');
 
 
 });

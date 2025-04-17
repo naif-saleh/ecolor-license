@@ -1,5 +1,5 @@
 <div>
 
-    <x-table-list />
+    <x-table-list :licensList="$licensList" :enable="true"/>
 
 </div>

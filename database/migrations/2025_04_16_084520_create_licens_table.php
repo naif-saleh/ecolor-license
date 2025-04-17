@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->boolean('enabled')->default(false);
-            $table->string('license_key')->unique();
+            $table->string('license_key')->unique()->nullable();
             $table->enum('status', ['Active', 'Inactive', 'Expired'])->default('Inactive');
             $table->string('description')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');

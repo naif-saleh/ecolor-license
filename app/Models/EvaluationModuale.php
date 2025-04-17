@@ -11,14 +11,11 @@ class EvaluationModuale extends Model
 
     protected $fillable = [
         'name',
-        'licens_id',
         'description',
         'enabled'
     ];
 
-    protected $casts = [
-        'enabled' => 'boolean'
-    ];
+     
 
     public function licens()
     {

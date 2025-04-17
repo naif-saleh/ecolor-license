@@ -1,5 +1,7 @@
-@props(['id' => '', 'type' => '', 'class' => '', 'placeholder' => ''])
+@props(['id' => '', 'type' => '', 'class' => '', 'placeholder' => '', 'livewire' => ''])
 
 <input id="{{ $id }}" type="{{ $type }}"
     class="{{ $class }}"
-    placeholder="{{ $placeholder }}">
+    placeholder="{{ $placeholder }}"
+    wire:model='{{ $livewire }}'
+    >
