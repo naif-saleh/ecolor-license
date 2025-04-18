@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('licens', function (Blueprint $table) {
             $table->id();
-            $table->string('client_name')->unique();;
             $table->date('start_date');
             $table->date('end_date');
             $table->boolean('enabled')->default(false);
@@ -24,6 +23,7 @@ return new class extends Migration
             $table->foreignId('auto_dialer_id')->nullable()->constrained('auto_dialer_modules')->onDelete('cascade');
             $table->foreignId('auto_distributor_id')->nullable()->constrained('auto_distributor_moduales')->onDelete('cascade');
             $table->foreignId('evaluation_id')->nullable()->constrained('evaluation_moduales')->onDelete('cascade');
+            $table->foreignId('company_id')->nullable()->constrained('companies')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

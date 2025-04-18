@@ -4,6 +4,7 @@ namespace App\Livewire\Licens;
 
 use App\Models\AutoDialerModule;
 use App\Models\AutoDistributorModuale;
+use App\Models\Company;
 use App\Models\EvaluationModuale;
 use App\Models\Licen;
 use Livewire\Component;
@@ -11,36 +12,36 @@ use Masmerise\Toaster\Toaster;
 
 class LicensCreate extends Component
 {
-    //Initialize properties for moduales
+    // Initialize properties for moduales
     public $autoDialerModule = false;
     public $autoDistributorModule = false;
     public $evaluationModule = false;
 
-    //Initialize properties for Dialer and Distributor
+    // Initialize properties for Dialer and Distributor
     public $max_channels = 0;
     public $max_providers = 0;
     public $dial_max_calls = 0;
     public $dist_max_calls = 0;
     public $max_agents = 0;
 
-    //Initialize properties for Licens
+    // Initialize properties for Licens
     public $companyName = '';
     public $dateFrom = '';
     public $dateTo = '';
     public $status = '';
     public $description = '';
     public $licensKey = '';
-
     public $dialer = '';
     public $distributor = '';
     public $evaluation = '';
+    public $companies = [];
 
+    public function mount()
+    {
+        $this->companies = Company::all();
+    }
 
-
-
-    public function mount() {}
-
-    //rules for validation
+    // rules for validation
     private function rules()
     {
         return [
@@ -58,16 +59,15 @@ class LicensCreate extends Component
 
     public function generateLicene()
     {
-
         $this->validate($this->rules());
 
-
-        if($this->autoDialerModule == false && $this->autoDistributorModule == false && $this->evaluationModule == false){
+        if ($this->autoDialerModule == false && $this->autoDistributorModule == false && $this->evaluationModule == false) {
             Toaster::warning('Please select at least one module');
+
             return;
         }
         // Save the modules information to the database
-        //Dilaer module
+        // Dilaer module
         if ($this->autoDialerModule == true) {
             $dialer = AutoDialerModule::create([
                 'max_channels' => $this->max_channels,
@@ -77,7 +77,7 @@ class LicensCreate extends Component
             ]);
         }
 
-        //Distributor module
+        // Distributor module
         if ($this->autoDistributorModule == true) {
             $distributor = AutoDistributorModuale::create([
                 'agents' => $this->max_agents,
@@ -86,26 +86,24 @@ class LicensCreate extends Component
             ]);
         }
 
-        //Evaluation module
+        // Evaluation module
         if ($this->evaluationModule == true) {
             $evaluation = EvaluationModuale::create([
                 'enabled' => true,
             ]);
         }
 
-
-
         // Save the license information to the database
         // Assuming you have a License model and a licenses table
-       $licen = Licen::create([
-            'client_name' => $this->companyName,
+        $licen = Licen::create([
             'start_date' => $this->dateFrom,
             'end_date' => $this->dateTo,
             'status' => $this->status,
             'user_id' => auth()->user()->id,
-            'auto_dialer_id' => $this->autoDialerModule ? $dialer->id  : null,
+            'auto_dialer_id' => $this->autoDialerModule ? $dialer->id : null,
             'auto_distributor_id' => $this->autoDistributorModule ? $distributor->id : null,
             'evaluation_id' => $this->evaluationModule ? $evaluation->id : null,
+            'company_id' => $this->companyName,
             'description' => $this->description,
         ]);
 
@@ -126,7 +124,7 @@ class LicensCreate extends Component
             'max_providers',
             'dial_max_calls',
             'dist_max_calls',
-            'max_agents'
+            'max_agents',
         ]);
     }
 

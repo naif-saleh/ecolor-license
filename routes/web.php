@@ -1,5 +1,10 @@
 <?php
 
+use App\Livewire\Company\CompanyCreate;
+use App\Livewire\Company\CompanyList;
+use App\Livewire\Company\CompanyShow;
+use App\Livewire\Company\CompanySoftdeletes;
+use App\Livewire\Company\CompanyUpdate;
 use App\Livewire\Licens\LicensCreate;
 use App\Livewire\Licens\LicensList;
 use App\Livewire\Licens\LicensShow;
@@ -32,6 +37,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('licens/create', LicensCreate::class)->name('licens.create');
     Route::get('licens/softdelete', SoftDaletes::class)->name('licens.softdelete');
     Route::get('licens/show/{id}', LicensShow::class)->name('licens.show');
+
+    //Company Route
+    Route::get('company/companies-list', CompanyList::class)->name('company.list');
+    Route::get('company/create-company', CompanyCreate::class)->name('company.create');
+    Route::get('company/edit-company/{id}', CompanyUpdate::class)->name('company.edit');
+    Route::get('company/show-company/{id}', CompanyShow::class)->name('company.show');
+    Route::get('company/softdelete', CompanySoftdeletes::class)->name('company.softdelete');
 
 
 });

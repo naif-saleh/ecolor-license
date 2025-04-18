@@ -23,9 +23,12 @@
                             class="block text-sm font-medium text-gray-700 dark:text-neutral-200"
                             value="Company Name" />
                         {{-- Input Component - Company Name --}}
-                        <x-primary-input :livewire="'companyName'" id="companyName" type="text"
-                            class="p-4 mt-1 block w-full rounded-md bg-gray-300 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400"
-                            placeholder="Write Company Name Here..." />
+                        <select wire:model='companyName' class="py-3 px-4 pe-9 block w-full bg-gray-300 border-transparent rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-transparent dark:text-neutral-400 dark:focus:ring-neutral-600">
+                            <option value="" disabled selected  >Open this select menu</option>
+                            @foreach ($companies as $company)
+                                <option value="{{ $company->id }}">{{ $company->name }}</option>
+                            @endforeach
+                          </select>
 
                         @error('companyName')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>

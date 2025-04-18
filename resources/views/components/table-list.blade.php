@@ -1,4 +1,4 @@
-@props(['licensList' => '', 'enable' => ''])
+@props(['licensList' => '', 'enable' => '', 'licensHeader' => 'Licens List'])
 
 <!-- Table Section -->
 <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -8,18 +8,18 @@
             <div class="p-1.5 min-w-full inline-block align-middle">
                 <div
                     class="bg-white border border-gray-200 rounded-xl shadow-2xs overflow-hidden dark:bg-neutral-900 dark:border-neutral-700">
-                    <!-- Header -->
+
                     <div
                         class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-neutral-700">
                         <!-- Input -->
                         <div class="sm:col-span-1">
-
+                            <h1 class="text-xl text-neutral-500 dark:text-neutral-200">{{$licensHeader}}</h1>
                         </div>
                         <!-- End Input -->
 
                         <div class="sm:col-span-2 md:grow">
                             <div class="flex justify-end gap-x-2">
-                                
+
 
                                 @if ($enable == "true")
                                     @if (\App\Models\Licen::onlyTrashed()->count() > 0)
@@ -34,8 +34,8 @@
                                             </x-slot>
                                         </x-primary-link>
                                     @endif
-                            
-                                <x-primary-link :link="route('licens.create')" :value="'Create New'"
+
+                                <x-primary-link :link="route('licens.create')" :value="'Create New Licens'"
                                     :class="'py-2 px-3 inline-flex cursor-pointer items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700'">
                                     <x-slot:icon>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -45,9 +45,9 @@
                                     </x-slot:icon>
                                 </x-primary-link>
                             @endif
-                            
 
-                                
+
+
 
                                 <label for="hs-as-table-product-review-search" class="sr-only">Search</label>
                                 <div class="relative">
@@ -125,12 +125,12 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
 
-                            @foreach ($licensList as $licen)
+                            @forelse ($licensList as $licen)
                             <tr>
                                 <td class="size-px whitespace-nowrap">
                                     <div class="px-6 py-2">
                                         <span
-                                            class="text-sm text-gray-600 dark:text-neutral-400">{{$licen->client_name}}</span>
+                                            class="text-sm text-gray-600 dark:text-neutral-400">{{$licen->company->name ?? ""}}</span>
                                     </div>
                                 </td>
                                 <td class="size-px whitespace-nowrap">
@@ -266,7 +266,7 @@
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                                                   </svg>
-                                                  
+
                                             </x-slot:icon>
                                         </x-primary-button>
 
@@ -274,14 +274,21 @@
                                     </div>
 
                                     @endif
-                                    
-                                    
+
+
                                 </div>
                         </div>
                     </div>
                 </td>
                 </tr>
-                @endforeach
+                <tr>
+                    @empty
+                    <td colspan="6"
+                        class="text-center text-gray-500 dark:text-neutral-400 p-6">
+                        No data available
+                    </td>
+                </tr>
+                @endforelse
 
                 </tbody>
                 </table>
@@ -294,7 +301,7 @@
                     <div>
                         <div class="inline-flex items-center gap-x-2 mt-4">
                             {{-- Previous Page --}}
-                            <button wire:click="previousPage" wire:loading.attr="disabled" 
+                            <button wire:click="previousPage" wire:loading.attr="disabled"
                                 @if ($licensList->onFirstPage()) disabled @endif
                                 class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border
                                 border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden
@@ -316,7 +323,7 @@
                             </span>
 
                             {{-- Next Page --}}
-                            <button wire:click="nextPage" wire:loading.attr="disabled" 
+                            <button wire:click="nextPage" wire:loading.attr="disabled"
                                 @if (!$licensList->hasMorePages()) disabled @endif
                                 class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border
                                 border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden

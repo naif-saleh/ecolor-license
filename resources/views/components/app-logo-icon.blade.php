@@ -1,5 +1,5 @@
 
-<img src="{{ asset('images/download.png') }}" alt="Logo" {{ $attributes }} class="w-8 h-8">
+<img src="{{ asset('images/ECOLOR-LOGO.svg') }}" alt="Logo" {{ $attributes }} class="w-8 h-8">
 
 {{-- Uncomment the SVG below if you want to use it instead of the image --}}
 {{-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 42" {{ $attributes }}>

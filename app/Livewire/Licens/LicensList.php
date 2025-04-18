@@ -35,26 +35,26 @@ class LicensList extends Component
     {
         // Find the license record by ID
         $licens = Licen::find($id);
-        
+
         if (!$licens) {
             return abort(404);
         }
-        
+
         // Check and prepare module information
         $modules = [];
         if (isset($licens->autoDialerModules) && isset($licens->autoDialerModules->name)) {
             $modules[] = $licens->autoDialerModules->name;
         }
-        
+
         // Check if these properties exist with the spelling in your DB
         if (isset($licens->autoDistributorModuales) && isset($licens->autoDistributorModuales->name)) {
             $modules[] = $licens->autoDistributorModuales->name;
         }
-        
+
         if (isset($licens->evaluationModuales) && isset($licens->evaluationModuales->name)) {
             $modules[] = $licens->evaluationModuales->name;
         }
-        
+
         // Create the info items array with proper null checking
         $infoItems = [
             'Client Name' => $licens->client_name ?? 'N/A',
@@ -65,7 +65,7 @@ class LicensList extends Component
             'Modules' => !empty($modules) ? implode(' - ', $modules) : 'N/A',
             'Description' => $licens->description ?? 'No description',
         ];
-        
+
         // Generate the PDF with proper UTF-8 configuration
         $pdf = Pdf::loadView('livewire.licens.licens-pdf', [
             'licens' => $licens,
@@ -77,11 +77,11 @@ class LicensList extends Component
             'defaultFont' => 'DejaVu Sans',
             'charset' => 'UTF-8',
         ]);
-        
+
         return response()->streamDownload(
             function () use ($pdf) {
                 echo $pdf->output();
-            }, 
+            },
             'license_info_' . $licens->id . '.pdf'
         );
     }
@@ -120,7 +120,7 @@ class LicensList extends Component
         }
 
         return view('livewire.licens.licens-list', [
-            'licensList' => $query->orderBy('created_at', 'desc')->paginate(10),
+            'licensList' => $query->latest('created_at')->paginate(10),
         ]);
     }
 }

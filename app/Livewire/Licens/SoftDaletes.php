@@ -20,8 +20,8 @@ class SoftDaletes extends Component
         if ($licen) {
             $licen->restore();
             if(Licen::onlyTrashed()->count() == 0){
-                return redirect()->route('licens.list');
                 Toaster::success('Licen is restored successfully');
+                return redirect()->route('licens.list');
             }
             Toaster::success('Licen is restored successfully');
         } else {
@@ -35,8 +35,8 @@ class SoftDaletes extends Component
         if ($licen) {
             $licen->forceDelete();
             if(Licen::onlyTrashed()->count() == 0){
-                return redirect()->route('licens.list');
                 Toaster::success('Licen is force deleted successfully');
+                return redirect()->route('licens.list');
             }
             Toaster::success('Licen is force deleted successfully');
         } else {

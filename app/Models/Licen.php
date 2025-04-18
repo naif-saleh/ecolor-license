@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
 
 class Licen extends Model
 {
@@ -24,6 +24,7 @@ class Licen extends Model
         'auto_dialer_id',
         'auto_distributor_id',
         'evaluation_id',
+        'company_id',
     ];
 
     protected $dates = ['deleted_at'];
@@ -34,6 +35,12 @@ class Licen extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // The company associated with the license
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 
     // The auto dialer modules associated with the license
@@ -63,6 +70,7 @@ class Licen extends Model
         $key = implode('-', str_split($raw, 5));
         $this->license_key = $key;
         $this->save();
+
         return $key;
     }
 
@@ -72,13 +80,11 @@ class Licen extends Model
         return $this->end_date < now();
     }
 
-
     // Check if the license is active
     public function isActive(): bool
     {
         return $this->status === 'Active';
     }
-
 
     // Check if the license is inactive
     public function isInactive(): bool
@@ -86,7 +92,9 @@ class Licen extends Model
         return $this->status === 'Inactive';
     }
 
-
-
-
+    // Check if the license is currently in use
+    public function isInUsed(): bool
+    {
+        return $this->enabled && ! $this->isExpired() && $this->status === 'active';
+    }
 }
