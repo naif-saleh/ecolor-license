@@ -3,6 +3,7 @@
 namespace App\Livewire\Company;
 
 use App\Models\Company;
+use App\Models\Licen;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Masmerise\Toaster\Toaster;
@@ -25,6 +26,7 @@ class CompanyList extends Component
         $company = Company::find($id);
         if ($company) {
             $company->delete();
+            Licen::where('company_id', $id)->delete();
             Toaster::success('Company is soft deleted successfully');
         } else {
             Toaster::warning('Company not found!');

@@ -80,8 +80,8 @@ class LicensCreate extends Component
         // Distributor module
         if ($this->autoDistributorModule == true) {
             $distributor = AutoDistributorModuale::create([
-                'agents' => $this->max_agents,
-                'max_calls' => $this->dial_max_calls,
+                'max_agents' => $this->max_agents,
+                'max_calls' => $this->dist_max_calls,
                 'enabled' => true,
             ]);
         }

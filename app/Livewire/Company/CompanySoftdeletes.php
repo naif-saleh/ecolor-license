@@ -23,6 +23,7 @@ class CompanySoftdeletes extends Component
         $company = Company::onlyTrashed()->find($id);
         if ($company) {
             $company->restore();
+            
             if (Company::onlyTrashed()->count() == 0) {
                 Toaster::success('Company restored successfully');
 

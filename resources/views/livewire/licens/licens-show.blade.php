@@ -6,7 +6,7 @@
     
             @php
                 $infoItems = [
-                    'Client Name' => $licens->client_name,
+                    'Client Name' => $licens->company->name ?? 'N/A',
                     'Status' => $licens->status,
                     'Key' => $licens->license_key,
                     'Duration Time' => $licens->start_date . ' - ' . $licens->end_date,
