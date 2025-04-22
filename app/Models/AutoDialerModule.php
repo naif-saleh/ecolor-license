@@ -15,15 +15,10 @@ class AutoDialerModule extends Model
         'description',
         'max_channels',
         'max_providers',
-        'max_calls'
+        'max_calls',
+        'enabled'
     ];
 
-    protected $casts = [
-        'enabled' => 'boolean',
-        'max_channels' => 'integer',
-        'max_providers' => 'integer',
-        'max_calls' => 'integer'
-    ];
 
     public function licens()
     {

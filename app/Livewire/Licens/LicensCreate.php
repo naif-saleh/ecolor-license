@@ -61,35 +61,37 @@ class LicensCreate extends Component
     {
         $this->validate($this->rules());
 
-        if ($this->autoDialerModule == false && $this->autoDistributorModule == false && $this->evaluationModule == false) {
+        if ($this->autoDialerModule && $this->autoDistributorModule && $this->evaluationModule) {
             Toaster::warning('Please select at least one module');
 
             return;
         }
+
+        // dd($this->autoDialerModule, $this->autoDistributorModule, $this->evaluationModule);
         // Save the modules information to the database
         // Dilaer module
-        if ($this->autoDialerModule == true) {
+        if ($this->autoDialerModule) {
             $dialer = AutoDialerModule::create([
                 'max_channels' => $this->max_channels,
                 'max_providers' => $this->max_providers,
                 'max_calls' => $this->dial_max_calls,
-                'enabled' => true,
+                'enabled' => $this->autoDialerModule,
             ]);
         }
 
         // Distributor module
-        if ($this->autoDistributorModule == true) {
+        if ($this->autoDistributorModule) {
             $distributor = AutoDistributorModuale::create([
                 'max_agents' => $this->max_agents,
                 'max_calls' => $this->dist_max_calls,
-                'enabled' => true,
+                'enabled' => $this->autoDistributorModule,
             ]);
         }
 
         // Evaluation module
-        if ($this->evaluationModule == true) {
+        if ($this->evaluationModule) {
             $evaluation = EvaluationModuale::create([
-                'enabled' => true,
+                'enabled' => $this->evaluationModule,
             ]);
         }
 

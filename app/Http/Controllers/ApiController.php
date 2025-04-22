@@ -36,19 +36,19 @@ class ApiController extends Controller
             ], 404);
         }
         // Check if the license key is already used
-        if ($licenKey->isInactive()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'License key is inactive.',
-            ], 400);
-        }
+        // if ($licenKey->isInactive()) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => 'License key is inactive.',
+        //     ], 400);
+        // }
         // Check if the license key is expired
-        if ($licenKey->isExpired()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'License key is expired.',
-            ], 400);
-        }
+        // if ($licenKey->isExpired()) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => 'License key is expired.',
+        //     ], 400);
+        // }
 
         // Check if the license key is already used
         if ($licenKey->isInUsed()) {
@@ -58,7 +58,7 @@ class ApiController extends Controller
             ], 400);
         }
         // Check if the license key is Valid
-        if($licenKey->isActive()) {
+        if($licenKey->isActive() || $licenKey->isInactive()) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'License key is valid.',

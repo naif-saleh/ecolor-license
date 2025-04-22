@@ -14,14 +14,11 @@ class AutoDistributorModuale extends Model
         'licens_id',
         'description',
         'max_agents',
-        'max_calls'
+        'max_calls',
+        'enabled'
     ];
 
-    protected $casts = [
-        'enabled' => 'boolean',
-        'max_agents' => 'integer',
-        'max_calls' => 'integer'
-    ];
+
 
     public function licens()
     {
