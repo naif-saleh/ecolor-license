@@ -48,7 +48,7 @@ public function mount()
         return view('livewire.dashboard', [
             'active' => Licen::where('status', 'active')->count(),
             'inactive' => Licen::where('status', 'inactive')->count(),
-            'expaired' => Licen::where('status', 'expaired')->count(),
+            'expaired' => Licen::where('status', 'Expired')->count(),
             'companies' => Company::count(),
         ]);
     }
